@@ -11,9 +11,10 @@ using Vrektproject.Data;
 namespace Vrektproject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180417121452_First")]
+    partial class First
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,19 +193,23 @@ namespace Vrektproject.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MemberId");
+                    b.Property<int>("MemberId");
+
+                    b.Property<string>("MemberId1");
 
                     b.Property<bool>("MemberLike");
 
-                    b.Property<string>("RecruiterId");
+                    b.Property<int>("RecruiterId");
+
+                    b.Property<string>("RecruiterId1");
 
                     b.Property<bool>("RecruiterLike");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MemberId1");
 
-                    b.HasIndex("RecruiterId");
+                    b.HasIndex("RecruiterId1");
 
                     b.ToTable("Likes");
                 });
@@ -302,11 +307,11 @@ namespace Vrektproject.Data.Migrations
                 {
                     b.HasOne("Vrektproject.Models.ApplicationUser", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberId1");
 
                     b.HasOne("Vrektproject.Models.ApplicationUser", "Recruiter")
                         .WithMany()
-                        .HasForeignKey("RecruiterId");
+                        .HasForeignKey("RecruiterId1");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Skill", b =>
