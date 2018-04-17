@@ -54,12 +54,13 @@ namespace Vrektproject
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseRewriter(new RewriteOptions()
-                      .AddRedirectToHttpsPermanent());
 
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseRewriter(new RewriteOptions()
+                      .AddRedirectToHttpsPermanent());
 
             app.UseMvc(routes =>
             {
