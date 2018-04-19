@@ -40,6 +40,7 @@ namespace Vrektproject
             services.AddAuthentication().AddGoogle(GoogleOptions => {
                 GoogleOptions.ClientId = Environment.GetEnvironmentVariable("ClientIDGoogle");
                 GoogleOptions.ClientSecret = Environment.GetEnvironmentVariable("ClientSecretGoogle");
+                GoogleOptions.Scope.Add("https://www.googleapis.com/auth/userinfo.profile");
             });
 
 
