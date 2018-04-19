@@ -11,7 +11,7 @@ namespace Vrektproject.Models
     {
         public int RoleIdentifier { get; set; }
         public bool Authorized { get; set; }
-        public int ProfileId { get; set; }
+        public int? ProfileId { get; set; }
         public virtual Profile Profile { get; set; }
     }
 }

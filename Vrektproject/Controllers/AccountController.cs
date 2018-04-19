@@ -226,16 +226,25 @@ namespace Vrektproject.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var profile = new Profile();
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, ProfileId = profile.Id };
+                var dbresult = _context.Users.Any();
+                if (!dbresult)
+                {
+                    user.RoleIdentifier = 0;
+                }
+                else
+                {
+                    user.RoleIdentifier = 1;
+                }
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var profile = new Profile();
+                    _context.Add(profile);
+                    user.ProfileId = profile.Id;
+                    await _context.SaveChangesAsync();
                     _logger.LogInformation("User created a new account with password.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);

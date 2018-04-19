@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
-namespace Vrektproject.Data.Migrations
+namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180417121654_Maybe fixes like")]
-    partial class Maybefixeslike
+    [Migration("20180419125654_222")]
+    partial class _222
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
