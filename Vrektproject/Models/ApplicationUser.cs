@@ -9,5 +9,9 @@ namespace Vrektproject.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        public int RoleIdentifier { get; set; }
+        public bool Authorized { get; set; }
+        public int ProfileId { get; set; }
+        public virtual Profile Profile { get; set; }
     }
 }
