@@ -14,6 +14,8 @@ using Vrektproject.Models;
 using Vrektproject.Models.AccountViewModels;
 using Vrektproject.Services;
 using Vrektproject.Data;
+using Google.Apis.Oauth2.v2.Data;
+
 
 namespace Vrektproject.Controllers
 {
@@ -301,7 +303,7 @@ namespace Vrektproject.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email});
             }
         }
 
