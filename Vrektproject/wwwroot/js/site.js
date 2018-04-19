@@ -4,6 +4,7 @@
 let btn = document.getElementById('mysteryButton');
 let div = document.getElementById('mysteryDiv');
 
+
 btn.addEventListener('click', function (event) {
     fetch('/Api/MysteryAnimal')
         .then(response => {
