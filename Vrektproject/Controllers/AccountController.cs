@@ -243,6 +243,8 @@ namespace Vrektproject.Controllers
                     var profile = new Profile();
                     _context.Add(profile);
                     user.ProfileId = profile.Id;
+                    profile.FirstName = model.FirstName;
+                    profile.LastName = model.LastName;
                     await _context.SaveChangesAsync();
                     _logger.LogInformation("User created a new account with password.");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
