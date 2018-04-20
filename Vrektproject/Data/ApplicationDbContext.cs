@@ -15,6 +15,10 @@ namespace Vrektproject.Data
         {
         }
 
+        DbSet<Profile> Profiles { get; set; }
+        DbSet<Skill> Skills { get; set; }
+        DbSet<Like> Likes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
