@@ -36,6 +36,12 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="IsRecruiter"></label>
+                <input type="checkbox" asp-for="IsRecruiter" class="form-control" />
+                <span asp-validation-for="IsRecruiter" class="text-danger"></span>
+            </div>
+
             <button type="submit" class="btn btn-default">Register</button>
         </form>
     </div>
