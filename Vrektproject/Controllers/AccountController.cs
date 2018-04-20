@@ -233,10 +233,15 @@ namespace Vrektproject.Controllers
                 {
                     user.RoleIdentifier = 0;
                 }
+                else if (model.IsRecruiter)
+                {
+                    user.RoleIdentifier = 2;
+                }
                 else
                 {
                     user.RoleIdentifier = 1;
                 }
+                                     
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
