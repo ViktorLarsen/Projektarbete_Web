@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Vrektproject.Data;
 using Vrektproject.Models;
 using Vrektproject.Models.ManageViewModels;
 using Vrektproject.Services;
@@ -25,6 +26,7 @@ namespace Vrektproject.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +36,15 @@ namespace Vrektproject.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -54,14 +58,24 @@ namespace Vrektproject.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
 
+            var description = profile.Description;
+            if (description == null)
+            {
+                description = "";
+            }
             var model = new IndexViewModel
             {
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                FirstName = profile.FirstName,
+                LastName = profile.LastName,
+                Description = profile.Description
+                
             };
 
             return View(model);
@@ -92,6 +106,26 @@ namespace Vrektproject.Controllers
                 }
             }
 
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
+            var firstName = profile.FirstName;
+            if (model.FirstName != firstName)
+            {
+                profile.FirstName = model.FirstName;
+            }
+
+            var lastName = profile.LastName;
+            if (model.LastName != lastName)
+            {
+                profile.LastName = model.LastName;
+            }
+
+            var description = profile.Description;
+            if (model.Description != description)
+            {
+                profile.Description = model.Description;
+            }
+            _context.SaveChanges();
+
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
             {
@@ -101,7 +135,7 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
-
+           
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }

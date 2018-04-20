@@ -206,7 +206,7 @@ namespace Vrektproject.Migrations
 
                     b.HasIndex("RecruiterId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("AspNetLikes");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Profile", b =>
@@ -226,7 +226,7 @@ namespace Vrektproject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.ToTable("AspNetProfiles");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Skill", b =>
@@ -242,7 +242,7 @@ namespace Vrektproject.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("Skills");
+                    b.ToTable("AspNetSkills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
