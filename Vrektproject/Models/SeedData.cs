@@ -11,8 +11,10 @@ namespace Vrektproject.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
+            
+
             using (var context = new ApplicationDbContext(
-                serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
                 // Look for any movies.
                 if (context.Users.Any())
@@ -42,17 +44,16 @@ namespace Vrektproject.Models
                     });
                 context.SaveChanges();
 
-                context.Users.Add(
+                var user =
                      new ApplicationUser
                      {
                          Id = "0",
                          UserName = "Admin",
                          Email = "admin@vrekt.com",
-                         PasswordHash = "AQAAAAEAACcQAAAAELIWKUx9T3thpdzviWIODaUZ3cas/nAfW1JVFTY2CY9INUa4bFrolc6e/oqfJ6vD9w==",
                          ProfileId = profile.Id,
                          RoleIdentifier = 0,
                          Authorized = true
-                     });
+                     };
                 context.SaveChanges();
 
                 context.UserRoles.Add(
