@@ -102,8 +102,9 @@ namespace Vrektproject.Controllers
 
             if (!_context.Users.AsNoTracking().Where(a => a.Id == applicationUser.Id).Single().Authorized && applicationUser.Authorized && applicationUser.RoleIdentifier == 2)
             {
+                 var userRole = _context.UserRoles.Where(u => u.UserId == applicationUser.Id).SingleOrDefault();
+                _context.Remove(userRole);
                 _context.UserRoles.Add(new Microsoft.AspNetCore.Identity.IdentityUserRole<string> { UserId = applicationUser.Id, RoleId = "2" });
-                await _context.SaveChangesAsync();
             }
 
             if (ModelState.IsValid)
