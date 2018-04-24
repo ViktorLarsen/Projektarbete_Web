@@ -232,14 +232,17 @@ namespace Vrektproject.Controllers
                 if (!dbresult)
                 {
                     user.RoleIdentifier = 0;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "0" });
                 }
                 else if (model.IsRecruiter)
                 {
                     user.RoleIdentifier = 2;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
                 }
                 else
                 {
                     user.RoleIdentifier = 1;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
                 }
                                      
                 var result = await _userManager.CreateAsync(user, model.Password);
