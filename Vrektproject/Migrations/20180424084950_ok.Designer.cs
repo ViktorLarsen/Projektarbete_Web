@@ -11,8 +11,8 @@ using Vrektproject.Data;
 namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180419125654_222")]
-    partial class _222
+    [Migration("20180424084950_ok")]
+    partial class ok
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,7 +162,7 @@ namespace Vrektproject.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("ProfileId");
+                    b.Property<int?>("ProfileId");
 
                     b.Property<int>("RoleIdentifier");
 
@@ -295,8 +295,7 @@ namespace Vrektproject.Migrations
                 {
                     b.HasOne("Vrektproject.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Like", b =>
