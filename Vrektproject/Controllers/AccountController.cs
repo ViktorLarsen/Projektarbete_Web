@@ -341,12 +341,17 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                user.RoleIdentifier = 1;
+                _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        var profile = new Profile();
+                        _context.Add(profile);
+                        user.ProfileId = profile.Id;
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
