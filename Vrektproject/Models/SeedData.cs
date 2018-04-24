@@ -17,14 +17,10 @@ namespace Vrektproject.Models
             serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
                 // Look for any movies.
-                if (context.Users.Any())
+                if (context.Roles.Any())
                 {
                     return;   // DB has been seeded
                 }
-
-                var profile = new Profile();
-                context.Add(profile);
-                context.SaveChanges();
 
                 context.Roles.AddRange(
                     new IdentityRole
@@ -41,26 +37,6 @@ namespace Vrektproject.Models
                     {
                         Id = "2",
                         Name = "Recruiter"
-                    });
-                context.SaveChanges();
-
-                var user =
-                     new ApplicationUser
-                     {
-                         Id = "0",
-                         UserName = "Admin",
-                         Email = "admin@vrekt.com",
-                         ProfileId = profile.Id,
-                         RoleIdentifier = 0,
-                         Authorized = true
-                     };
-                context.SaveChanges();
-
-                context.UserRoles.Add(
-                    new IdentityUserRole<string>
-                    {
-                        UserId = "0",
-                        RoleId = "0"
                     });
                 context.SaveChanges();
             }
