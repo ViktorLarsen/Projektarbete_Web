@@ -108,13 +108,13 @@ namespace Vrektproject.Controllers
 
             var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
             var firstName = profile.FirstName;
-            if (model.FirstName != firstName)
+            if (model.FirstName != firstName && model.FirstName.Length > 0)
             {
                 profile.FirstName = model.FirstName;
             }
 
             var lastName = profile.LastName;
-            if (model.LastName != lastName)
+            if (model.LastName != lastName && model.LastName.Length > 0)
             {
                 profile.LastName = model.LastName;
             }
@@ -124,7 +124,7 @@ namespace Vrektproject.Controllers
             {
                 profile.Description = model.Description;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
