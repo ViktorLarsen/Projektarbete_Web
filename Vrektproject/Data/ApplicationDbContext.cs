@@ -15,9 +15,9 @@ namespace Vrektproject.Data
         {
         }
 
-        DbSet<Profile> Profiles { get; set; }
-        DbSet<Skill> Skills { get; set; }
-        DbSet<Like> Likes { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<Like> Likes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,5 +26,7 @@ namespace Vrektproject.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Vrektproject.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
