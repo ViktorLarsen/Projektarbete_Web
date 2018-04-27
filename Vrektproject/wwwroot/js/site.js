@@ -6,22 +6,23 @@ let div = document.getElementById('mysteryDiv');
 
 let tinderButton = document.getElementById('tinderButton');
 let profileResult = document.getElementById('profileResult');
+let secretId = document.getElementById('secretId');
 let counter = 0;
 
 
 tinderButton.addEventListener('click', function (event) {
-    fetch('/Api/GetProfiles')
+    fetch('/Api/GetProfiles/' + secretId.textContent)
         .then(response => {
             return response.json();
         })
         .then(data => {
-            //for (var i = 0; i < data.length; i++) {
-            //    var profile = JSON.parse(data[i]);
-            //    profileResult.innerHTML += '<br/>' + profile.Id;
-            //}
-            var profile = JSON.parse(data[counter]);
-            profileResult.innerHTML += '<br/>' + profile.Id + '<br/>' + profile.FirstName + '<br/>' + profile.LastName + '<br/>';
+            //var profile = JSON.parse(data[counter]);
+            //console.log(profile);
+            //profileResult.innerHTML += '<br/>' + profile.Id + '<br/>' + profile.FirstName + '<br/>' + profile.LastName + '<br/>';
+            profileResult.innerHTML = data[counter];
             counter++;
+            //console.log(data[counter]);
+            console.log("ok");
         })
         .catch(error => {
             console.log(error);
