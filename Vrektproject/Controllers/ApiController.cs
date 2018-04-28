@@ -39,28 +39,59 @@ namespace Vrektproject.Controllers
         [HttpGet]
         public List<string> GetProfiles(string id)
         {
-            //var userId = _userManager.GetUserId(User);
-            //var user = _userManager.FindByIdAsync(User.Identity);
-            //var user = GetCurrentUser();
-            //var userId = user.Result.Id;
-            List<string> Profiles = new List<string>();
-            foreach (var profile in _context.Profiles)
-            {
-                Profiles.Add(/*JsonConvert.SerializeObject(profile)*/ id);
-            }
-            return Profiles;
-        }
+            ApplicationUser user;
+            List<Profile> profiles = new List<Profile>();
+            List<string> userIds = new List<string>();
 
-        //[HttpGet]
-        //public async Task<ApplicationUser> GetCurrentUser()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //    }
-        //    return user;
-        //}
+            try
+            {
+                user = _context.Users.Where(u => u.Id == id).Single(); //Get active user
+            }
+            catch
+            {
+                throw new ApplicationException($"Unable to load user with ID '{id}'.");
+            }
+
+            var roleId = _context.UserRoles.Where(r => r.UserId == user.Id).Single().RoleId; //Get active user role
+
+            //Get list of opposite role user IDs
+            if (roleId == "1")
+            {
+                foreach (var entity in _context.UserRoles)
+                {
+                    if (entity.RoleId == "2")
+                    {
+                        userIds.Add(entity.UserId);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var entity in _context.UserRoles)
+                {
+                    if (entity.RoleId == "1")
+                    {
+                        userIds.Add(entity.UserId);
+                    }
+                }
+            }
+
+            //For each found user, add their profiles to list
+            foreach (var userId in userIds)
+            {
+                var profileId = _context.Users.Where(u => u.Id == userId).Single().ProfileId;
+                profiles.Add(_context.Profiles.Where(p => p.Id == profileId).Single());
+            }
+
+            //TODO: Compare and count number of matching skills between user profile and other relevant profiles, then sort list of profiles (dictionary?)
+
+            List<string> ProfilesJson = new List<string>();
+            foreach (var profile in profiles)
+            {
+                ProfilesJson.Add(JsonConvert.SerializeObject(profile));
+            }
+            return ProfilesJson;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index()

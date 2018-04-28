@@ -11,8 +11,8 @@ using Vrektproject.Data;
 namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180426095335_cool")]
-    partial class cool
+    [Migration("20180428124137_clean migration")]
+    partial class cleanmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

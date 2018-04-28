@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Vrektproject.Migrations
 {
-    public partial class cool : Migration
+    public partial class cleanmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

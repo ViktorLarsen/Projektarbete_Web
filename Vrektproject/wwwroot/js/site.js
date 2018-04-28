@@ -16,13 +16,17 @@ tinderButton.addEventListener('click', function (event) {
             return response.json();
         })
         .then(data => {
-            //var profile = JSON.parse(data[counter]);
-            //console.log(profile);
-            //profileResult.innerHTML += '<br/>' + profile.Id + '<br/>' + profile.FirstName + '<br/>' + profile.LastName + '<br/>';
-            profileResult.innerHTML = data[counter];
-            counter++;
-            //console.log(data[counter]);
-            console.log("ok");
+            try {
+                var profile = JSON.parse(data[counter]);
+                profileResult.innerHTML = '<br/>' + profile.Id + '<br/>' + profile.FirstName + '<br/>' + profile.LastName + '<br/>';
+                counter++;
+                console.log("API run successfully");
+
+            }
+            catch (e) {
+                profileResult.innerHTML = 'No more profiles!';
+                console.log("No more profiles (or failed to parse profile object)");
+            }
         })
         .catch(error => {
             console.log(error);
