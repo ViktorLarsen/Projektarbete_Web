@@ -33,10 +33,13 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Fun :)</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Boring</a></li>
+
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index">Manage users</a></li>
                     }
+
+                    <li><a asp-area="" asp-controller="Api" asp-action="Index">Start Matching!</a></li>
 
 
                 </ul>
