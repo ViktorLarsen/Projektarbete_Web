@@ -14,6 +14,8 @@ using Vrektproject.Models;
 using Vrektproject.Models.AccountViewModels;
 using Vrektproject.Services;
 using Vrektproject.Data;
+using Google.Apis.Oauth2.v2.Data;
+
 
 namespace Vrektproject.Controllers
 {
@@ -224,16 +226,36 @@ namespace Vrektproject.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var profile = new Profile();
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Authorized = false};
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, ProfileId = profile.Id };
+                var dbresult = _context.Users.Any();
+                if (!dbresult)
+                {
+                    user.RoleIdentifier = 0;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "0" });
+                }
+                else if (model.IsRecruiter)
+                {
+                    user.RoleIdentifier = 2;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" }); //Recruiter needs to be authorized first
+                }
+                else
+                {
+                    user.RoleIdentifier = 1;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
+                }
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
+                    var profile = new Profile();
+                    _context.Add(profile);
+                    user.ProfileId = profile.Id;
+                    profile.FirstName = model.FirstName;
+                    profile.LastName = model.LastName;
+                    await _context.SaveChangesAsync();
                     _logger.LogInformation("User created a new account with password.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
@@ -301,7 +323,7 @@ namespace Vrektproject.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email});
             }
         }
 
@@ -319,12 +341,17 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                user.RoleIdentifier = 1;
+                _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        var profile = new Profile();
+                        _context.Add(profile);
+                        user.ProfileId = profile.Id;
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Vrektproject.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Google.Apis.Oauth2.v2.Data;
+
 
 namespace Vrektproject
 {
@@ -18,12 +20,14 @@ namespace Vrektproject
         {
             var host = BuildWebHost(args);
 
+
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
                 try
                 {
+
                     SeedData.Initialize(services);
                 }
                 catch (Exception ex)

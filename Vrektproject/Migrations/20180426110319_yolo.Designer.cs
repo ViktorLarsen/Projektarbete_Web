@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
-namespace Vrektproject.Data.Migrations
+namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180417121654_Maybe fixes like")]
-    partial class Maybefixeslike
+    [Migration("20180426110319_yolo")]
+    partial class yolo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,7 +162,7 @@ namespace Vrektproject.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("ProfileId");
+                    b.Property<int?>("ProfileId");
 
                     b.Property<int>("RoleIdentifier");
 
@@ -295,8 +295,7 @@ namespace Vrektproject.Data.Migrations
                 {
                     b.HasOne("Vrektproject.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Like", b =>
