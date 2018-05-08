@@ -19,16 +19,18 @@
 
 .noresize {
     height: 150px;
-    width:100%;
-    resize:none;
+    width: 100%;
+    resize: none;
 }
 
 .navbar {
     background-color: #0077B5;
 }
+
 a {
     color: black !important;
 }
+
 .container > a {
     border-radius: 15px;
     margin: 5px;
@@ -37,10 +39,12 @@ a {
     border-style: inset;
     border-color: black;
 }
+
 a:hover {
-    background: linear-gradient(to bottom right, white, white, #8CABFF , #0088b5);
+    background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
     color: black !important;
 }
+
 .btn {
     background-color: white; /* Blue background */
     color: black; /* White text */
@@ -52,11 +56,13 @@ a:hover {
     border-style: solid;
     border-width: 1px;
 }
-.btn:hover {
-    background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
-    color: black !important;
-    border-color:black;
-}
+
+    .btn:hover {
+        background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
+        color: black !important;
+        border-color: black;
+    }
+
 a:link {
     background-color: white; /* Blue background */
     border: none; /* Remove borders */
@@ -71,16 +77,15 @@ li {
     margin: 5px;
     font-size: 15px;
 }
+
 address > a:link {
     border-radius: 0px;
     background-color: #FFF;
     color: #0645AD !important;
     border-style: none;
 }
+
 a.navbar-brand {
-   height: 50px;
-   margin-top: 15px;
+    height: 50px;
+    margin-top: 15px;
 }
-
-
-
