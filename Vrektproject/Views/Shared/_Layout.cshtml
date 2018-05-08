@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Vrektproject</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><i class="fab fa-vuejs fa-2x"></i> Vrektproject</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -40,16 +40,16 @@
 
                     @if (User.IsInRole("Admin"))
                     {
-                        <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index">Manage users</a></li>
+                        <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index"><i class="fas fa-address-card fa-2x"></i> Manage users</a></li>
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Skills" asp-action="Index">Skills</a></li>
+                        <li><a asp-area="" asp-controller="Skills" asp-action="Index"><i class="fas fa-book fa-2x"></i> Skills</a></li>
                     }
 
                     @if (User.IsInRole("Member") || User.IsInRole("Recruiter"))
                     {
-                        <li><a asp-area="" asp-controller="Api" asp-action="Index">Start Matching!</a></li>
+                        <li><a asp-area="" asp-controller="Api" asp-action="Index"><i class="fas fa-play fa-2x"></i>Start Matching!</a></li>
                     }
 
 
