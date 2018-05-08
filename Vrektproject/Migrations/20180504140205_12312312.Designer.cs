@@ -11,9 +11,10 @@ using Vrektproject.Data;
 namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180504140205_12312312")]
+    partial class _12312312
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,8 +215,7 @@ namespace Vrektproject.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<byte[]>("AvatarImage")
-                        .HasMaxLength(2147483647);
+                    b.Property<string>("CloudinaryImage");
 
                     b.Property<string>("Company");
 
