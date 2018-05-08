@@ -6,6 +6,7 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 30px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -21,3 +22,57 @@
     width:100%;
     resize:none;
 }
+
+.navbar {
+    background-color: #0077B5;
+}
+a {
+    color: black !important;
+}
+.container > a {
+    border-radius: 15px;
+    margin: 5px;
+    height: 60px;
+    background-color: white;
+    border-style: inset;
+    border-color: black;
+}
+a:hover {
+    background: linear-gradient(to bottom right, white, white, #8CABFF , #0088b5);
+    color: black !important;
+}
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+a:link {
+    background-color: white; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    border-radius: 25px;
+}
+
+li {
+    margin: 5px;
+    font-size: 15px;
+}
+address > a:link {
+    border-radius: 0px;
+    background-color: #FFF;
+    color: #0645AD !important;
+    border-style: none;
+}
+a.navbar-brand {
+   height: 50px;
+   margin-top: 15px;
+}
+
+
+

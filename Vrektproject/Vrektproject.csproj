@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180426094556_Test.cs" />
+    <Compile Remove="Migrations\20180426094556_Test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Controllers\AccountController.cs" />
     <Content Include="Controllers\HomeController.cs" />
     <Content Include="Controllers\ManageController.cs" />

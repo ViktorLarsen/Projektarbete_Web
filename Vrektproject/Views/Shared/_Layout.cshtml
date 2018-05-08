@@ -8,6 +8,9 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -30,9 +33,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Fun :)</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Boring</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-2x"></i> Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="far fa-smile fa-2x"></i> Fun :)</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="far fa-frown fa-2x"></i> Boring</a></li>
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index">Manage users</a></li>
