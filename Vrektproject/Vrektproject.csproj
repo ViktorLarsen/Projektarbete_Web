@@ -5,6 +5,17 @@
     <UserSecretsId>aspnet-Vrektproject-6B8D7D23-9076-4051-AC15-0D4BC807ADB0</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20180426094556_Test.cs" />
+    <Compile Remove="Migrations\20180426094556_Test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Controllers\AccountController.cs" />
+    <Content Include="Controllers\HomeController.cs" />
+    <Content Include="Controllers\ManageController.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.32.2" />

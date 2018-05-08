@@ -206,7 +206,8 @@ namespace Vrektproject.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
+            _logger.
+                LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 
             return RedirectToAction(nameof(ChangePassword));
