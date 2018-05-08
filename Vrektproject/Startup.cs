@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +10,6 @@ using Vrektproject.Models;
 using Vrektproject.Services;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.OAuth;
 
 namespace Vrektproject
 {
@@ -40,9 +36,7 @@ namespace Vrektproject
             services.AddAuthentication().AddGoogle(GoogleOptions => {
                 GoogleOptions.ClientId = Environment.GetEnvironmentVariable("ClientIDGoogle");
                 GoogleOptions.ClientSecret = Environment.GetEnvironmentVariable("ClientSecretGoogle");
-                GoogleOptions.Scope.Add("https://www.googleapis.com/auth/userinfo.profile");
             });
-
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
