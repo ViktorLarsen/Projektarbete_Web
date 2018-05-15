@@ -68,6 +68,15 @@ namespace Vrektproject.Controllers
             {
                 description = "";
             }
+
+            string base64 = "";
+            string imgSrc = "";
+            if (profile.AvatarImage != null)
+            {
+                base64 = Convert.ToBase64String(profile.AvatarImage);
+                imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            }
+
             var model = new IndexViewModel
             {
                 Username = user.UserName,
@@ -78,8 +87,9 @@ namespace Vrektproject.Controllers
                 FirstName = profile.FirstName,
                 LastName = profile.LastName,
                 Description = profile.Description,
-                AvatarImage = profile.AvatarImage
-                
+                AvatarImage = profile.AvatarImage,
+                ImgSrc = imgSrc
+
             };
 
             return View(model);
@@ -128,7 +138,7 @@ namespace Vrektproject.Controllers
             {
                 profile.Description = model.Description;
             }
-                
+
             await _context.SaveChangesAsync();
 
             var phoneNumber = user.PhoneNumber;
@@ -140,7 +150,7 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
-           
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }
@@ -623,7 +633,7 @@ namespace Vrektproject.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(UploadPicture));
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion

@@ -89,3 +89,9 @@ a.navbar-brand {
     height: 50px;
     margin-top: 15px;
 }
+
+.ProfilePic{
+    height: 192px !important;
+    width: 192px !important;
+    border: 1px solid black;
+}
