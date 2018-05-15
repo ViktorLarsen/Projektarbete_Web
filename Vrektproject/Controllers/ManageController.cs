@@ -87,7 +87,7 @@ namespace Vrektproject.Controllers
                 FirstName = profile.FirstName,
                 LastName = profile.LastName,
                 Description = profile.Description,
-                AvatarImage = profile.AvatarImage,
+                //AvatarImage = profile.AvatarImage,
                 ImgSrc = imgSrc
 
             };
