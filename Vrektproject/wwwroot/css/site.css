@@ -28,7 +28,7 @@
 }
 
 a {
-    color: black !important;
+    color: black;
 }
 
 .container > a {
@@ -42,7 +42,7 @@ a {
 
 a:hover {
     background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
-    color: black !important;
+    color: black;
 }
 
 .btn {
@@ -59,7 +59,7 @@ a:hover {
 
     .btn:hover {
         background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
-        color: black !important;
+        color: black;
         border-color: black;
     }
 
@@ -79,13 +79,18 @@ li {
 }
 
 address > a:link {
-    border-radius: 0px;
     background-color: #FFF;
-    color: #0645AD !important;
+    color: #0645AD;
     border-style: none;
 }
 
-a.navbar-brand {
+a > .navbar-brand {
     height: 50px;
     margin-top: 15px;
+}
+
+.ProfilePic{
+    height: 192px;
+    width: 192px;
+    border: 1px solid black;
 }

@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using Vrektproject.Data;
 using Vrektproject.Models;
 using Vrektproject.Models.ManageViewModels;
-using Microsoft.AspNetCore.Identity;
 
 namespace Vrektproject.Controllers
 {
