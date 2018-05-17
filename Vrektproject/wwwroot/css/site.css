@@ -6,30 +6,91 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 30px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
 
 /* QR code generator */
 #qrCode {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+.noresize {
+    height: 150px;
+    width: 100%;
+    resize: none;
+}
+
+.navbar {
+    background-color: #0077B5;
+}
+
+a {
+    color: black;
+}
+
+.container > a {
+    border-radius: 15px;
+    margin: 5px;
+    height: 60px;
+    background-color: white;
+    border-style: inset;
+    border-color: black;
+}
+
+a:hover {
+    background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
+    color: black;
+}
+
+.btn {
+    background-color: white; /* Blue background */
+    color: black; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    border-radius: 25px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+
+    .btn:hover {
+        background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
+        color: black;
+        border-color: black;
     }
+
+a:link {
+    background-color: white; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    border-radius: 25px;
+}
+
+li {
+    margin: 5px;
+    font-size: 15px;
+}
+
+address > a:link {
+    background-color: #FFF;
+    color: #0645AD;
+    border-style: none;
+}
+
+a > .navbar-brand {
+    height: 50px;
+    margin-top: 15px;
+}
+
+.ProfilePic{
+    height: 192px;
+    width: 192px;
+    border: 1px solid black;
 }

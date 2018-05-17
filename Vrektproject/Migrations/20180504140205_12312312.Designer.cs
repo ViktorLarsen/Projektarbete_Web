@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
-namespace Vrektproject.Data.Migrations
+namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180504140205_12312312")]
+    partial class _12312312
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,7 +162,7 @@ namespace Vrektproject.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("ProfileId");
+                    b.Property<int?>("ProfileId");
 
                     b.Property<int>("RoleIdentifier");
 
@@ -214,6 +215,8 @@ namespace Vrektproject.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CloudinaryImage");
+
                     b.Property<string>("Company");
 
                     b.Property<string>("Description");
@@ -221,8 +224,6 @@ namespace Vrektproject.Data.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("PictureURL");
 
                     b.HasKey("Id");
 
@@ -294,8 +295,7 @@ namespace Vrektproject.Data.Migrations
                 {
                     b.HasOne("Vrektproject.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Like", b =>

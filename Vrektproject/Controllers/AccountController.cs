@@ -15,6 +15,7 @@ using Vrektproject.Models.AccountViewModels;
 using Vrektproject.Services;
 using Vrektproject.Data;
 
+
 namespace Vrektproject.Controllers
 {
     [Authorize]
@@ -224,16 +225,37 @@ namespace Vrektproject.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var profile = new Profile();
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Authorized = false };
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, ProfileId = profile.Id };
+                var Admin = _context.Users.Where(s => s.RoleIdentifier == 0).SingleOrDefault();
+                if (Admin == null)
+                {
+                    //give user admin role if there is no admin in DB
+                    user.RoleIdentifier = 0;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "0" });
+                }
+                else if (model.IsRecruiter)
+                {
+                    user.RoleIdentifier = 2;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" }); //Recruiter needs to be authorized first
+                }
+                else
+                {
+                    user.RoleIdentifier = 1;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
+                }
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    var profile = new Profile();
+                    _context.Add(profile);
+                    user.ProfileId = profile.Id;
+                    profile.FirstName = model.FirstName;
+                    profile.LastName = model.LastName;
+                    await _context.SaveChangesAsync();
                     _logger.LogInformation("User created a new account with password.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
@@ -319,12 +341,28 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                if (model.IsRecruiter)
+                {
+                    user.RoleIdentifier = 2;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" }); //Recruiter needs to be authorized first
+                }
+                else
+                {
+                    user.RoleIdentifier = 1;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
+                }
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        var profile = new Profile();
+                        _context.Add(profile);
+                        user.ProfileId = profile.Id;
+                        profile.FirstName = model.FirstName;
+                        profile.LastName = model.LastName;
+                        await _context.SaveChangesAsync();
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);

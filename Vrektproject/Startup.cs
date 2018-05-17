@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +9,7 @@ using Vrektproject.Data;
 using Vrektproject.Models;
 using Vrektproject.Services;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace Vrektproject
 {
@@ -34,6 +32,12 @@ namespace Vrektproject
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            
+            services.AddAuthentication().AddGoogle(GoogleOptions => {
+                GoogleOptions.ClientId = Environment.GetEnvironmentVariable("ClientIDGoogle");
+                GoogleOptions.ClientSecret = Environment.GetEnvironmentVariable("ClientSecretGoogle");
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -54,12 +58,13 @@ namespace Vrektproject
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseRewriter(new RewriteOptions()
-                      .AddRedirectToHttpsPermanent());
 
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseRewriter(new RewriteOptions()
+                      .AddRedirectToHttpsPermanent());
 
             app.UseMvc(routes =>
             {

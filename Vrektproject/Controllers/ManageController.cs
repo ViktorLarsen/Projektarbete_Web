@@ -9,10 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Vrektproject.Data;
 using Vrektproject.Models;
 using Vrektproject.Models.ManageViewModels;
 using Vrektproject.Services;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace Vrektproject.Controllers
 {
@@ -25,6 +28,7 @@ namespace Vrektproject.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +38,15 @@ namespace Vrektproject.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -54,6 +60,22 @@ namespace Vrektproject.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
+
+
+            var description = profile.Description;
+            if (description == null)
+            {
+                description = "";
+            }
+
+            string base64 = "";
+            string imgSrc = "";
+            if (profile.AvatarImage != null)
+            {
+                base64 = Convert.ToBase64String(profile.AvatarImage);
+                imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            }
 
             var model = new IndexViewModel
             {
@@ -61,7 +83,13 @@ namespace Vrektproject.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                FirstName = profile.FirstName,
+                LastName = profile.LastName,
+                Description = profile.Description,
+                //AvatarImage = profile.AvatarImage,
+                ImgSrc = imgSrc
+
             };
 
             return View(model);
@@ -91,6 +119,27 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
             }
+
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
+            var firstName = profile.FirstName;
+            if (model.FirstName != firstName && model.FirstName.Length > 0)
+            {
+                profile.FirstName = model.FirstName;
+            }
+
+            var lastName = profile.LastName;
+            if (model.LastName != lastName && model.LastName.Length > 0)
+            {
+                profile.LastName = model.LastName;
+            }
+
+            var description = profile.Description;
+            if (model.Description != description)
+            {
+                profile.Description = model.Description;
+            }
+
+            await _context.SaveChangesAsync();
 
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
@@ -172,7 +221,8 @@ namespace Vrektproject.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
+            _logger.
+                LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 
             return RedirectToAction(nameof(ChangePassword));
@@ -538,6 +588,52 @@ namespace Vrektproject.Controllers
 
             model.SharedKey = FormatKey(unformattedKey);
             model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UploadPicture()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new UploadPictureViewModel
+            {
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadPicture(UploadPictureViewModel model, List<IFormFile> files)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.GetUserAsync(User);
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
+            foreach (var formFile in files)
+            {
+                model.AvatarImage.Add(formFile);
+                if (formFile.Length > 0)
+                {
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var file = model.AvatarImage[0];
+                        await file.CopyToAsync(memoryStream);
+                        profile.AvatarImage = memoryStream.ToArray();
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion

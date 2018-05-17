@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Vrektproject.Models;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace Vrektproject
 {
     public class Program
@@ -18,12 +19,14 @@ namespace Vrektproject
         {
             var host = BuildWebHost(args);
 
+
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
                 try
                 {
+
                     SeedData.Initialize(services);
                 }
                 catch (Exception ex)

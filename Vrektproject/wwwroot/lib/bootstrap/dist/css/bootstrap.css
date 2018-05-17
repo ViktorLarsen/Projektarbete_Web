@@ -2546,6 +2546,7 @@ output {
   line-height: 1.42857143;
   color: #555;
 }
+
 .form-control {
   display: block;
   width: 100%;
@@ -2595,7 +2596,8 @@ fieldset[disabled] .form-control {
   cursor: not-allowed;
 }
 textarea.form-control {
-  height: auto;
+    height: 150px;
+    width: 100%:;
 }
 input[type="search"] {
   -webkit-appearance: none;
@@ -4493,38 +4495,38 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #f8f8f8;
-  border-color: #e7e7e7;
+    background-color: #0077B5;
+    border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
   color: #777;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #FFF;
   background-color: transparent;
 }
 .navbar-default .navbar-text {
-  color: #777;
+  color: #FFF;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #FFF;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
+  color: #000;
   background-color: transparent;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-  color: #555;
-  background-color: #e7e7e7;
+  color: #FFF;
+  background-color: #fff;
 }
 .navbar-default .navbar-nav > .disabled > a,
 .navbar-default .navbar-nav > .disabled > a:hover,
 .navbar-default .navbar-nav > .disabled > a:focus {
-  color: #ccc;
+  color: #FFF;
   background-color: transparent;
 }
 .navbar-default .navbar-toggle {
@@ -4570,7 +4572,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default .navbar-link {
-  color: #777;
+  color: #FFF;
 }
 .navbar-default .navbar-link:hover {
   color: #333;

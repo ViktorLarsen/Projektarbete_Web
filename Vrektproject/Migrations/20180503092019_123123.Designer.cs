@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
-namespace Vrektproject.Data.Migrations
+namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180417121452_First")]
-    partial class First
+    [Migration("20180503092019_123123")]
+    partial class _123123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,7 +162,7 @@ namespace Vrektproject.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("ProfileId");
+                    b.Property<int?>("ProfileId");
 
                     b.Property<int>("RoleIdentifier");
 
@@ -193,23 +193,19 @@ namespace Vrektproject.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("MemberId");
-
-                    b.Property<string>("MemberId1");
+                    b.Property<string>("MemberId");
 
                     b.Property<bool>("MemberLike");
 
-                    b.Property<int>("RecruiterId");
-
-                    b.Property<string>("RecruiterId1");
+                    b.Property<string>("RecruiterId");
 
                     b.Property<bool>("RecruiterLike");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId1");
+                    b.HasIndex("MemberId");
 
-                    b.HasIndex("RecruiterId1");
+                    b.HasIndex("RecruiterId");
 
                     b.ToTable("Likes");
                 });
@@ -227,7 +223,7 @@ namespace Vrektproject.Data.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("PictureURL");
+                    b.Property<byte[]>("ProfileImage");
 
                     b.HasKey("Id");
 
@@ -299,19 +295,18 @@ namespace Vrektproject.Data.Migrations
                 {
                     b.HasOne("Vrektproject.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Like", b =>
                 {
                     b.HasOne("Vrektproject.Models.ApplicationUser", "Member")
                         .WithMany()
-                        .HasForeignKey("MemberId1");
+                        .HasForeignKey("MemberId");
 
                     b.HasOne("Vrektproject.Models.ApplicationUser", "Recruiter")
                         .WithMany()
-                        .HasForeignKey("RecruiterId1");
+                        .HasForeignKey("RecruiterId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Skill", b =>

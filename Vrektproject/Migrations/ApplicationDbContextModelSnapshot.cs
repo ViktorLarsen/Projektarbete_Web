@@ -3,18 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
-namespace Vrektproject.Data.Migrations
+namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180417121654_Maybe fixes like")]
-    partial class Maybefixeslike
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +159,7 @@ namespace Vrektproject.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("ProfileId");
+                    b.Property<int?>("ProfileId");
 
                     b.Property<int>("RoleIdentifier");
 
@@ -215,6 +212,9 @@ namespace Vrektproject.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("AvatarImage")
+                        .HasMaxLength(2147483647);
+
                     b.Property<string>("Company");
 
                     b.Property<string>("Description");
@@ -222,8 +222,6 @@ namespace Vrektproject.Data.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("PictureURL");
 
                     b.HasKey("Id");
 
@@ -295,8 +293,7 @@ namespace Vrektproject.Data.Migrations
                 {
                     b.HasOne("Vrektproject.Models.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProfileId");
                 });
 
             modelBuilder.Entity("Vrektproject.Models.Like", b =>
