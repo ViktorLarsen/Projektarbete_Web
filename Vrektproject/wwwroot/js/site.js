@@ -1,30 +1,86 @@
-﻿// Write your JavaScript code.
+﻿//import { triggerAsyncId } from "async_hooks";
 
+// Write your JavaScript code.
+//document.addEventListener('load', function (event) {
 
 let btn = document.getElementById('mysteryButton');
+let likeBtn = document.getElementById('likeBtn');
 let div = document.getElementById('mysteryDiv');
 
 let tinderButton = document.getElementById('tinderButton');
-let profileResult = document.getElementById('profileResult');
+
+let profileTemplate = document.getElementById('profileTemplate');
+let descriptionTemplate = document.getElementById('descriptionTemplate');
+let imageTemplate = document.getElementById("imageTemplate");
+
 let secretId = document.getElementById('secretId');
+let secretProfileId = document.getElementById('secretProfileId');
 let counter = 0;
 
-
 tinderButton.addEventListener('click', function (event) {
-    fetch('/Api/GetProfiles/' + secretId.textContent)
+    fetch('/Api/Finder/GetProfiles?id=' + secretId.textContent)
         .then(response => {
             return response.json();
         })
         .then(data => {
             try {
                 var profile = JSON.parse(data[counter]);
-                profileResult.innerHTML = '<br/>' + profile.Id + '<br/>' + profile.FirstName + '<br/>' + profile.LastName + '<br/>';
                 counter++;
+
+                nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
+                descriptionTemplate.innerHTML = profile.Description;
+                imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+
+                secretProfileId.innerHTML = profile.UserId;
+                likeBtn.className = 'btn btn-success pull-right';
+                tinderButton.textContent = 'Keep looking';
+                tinderButton.className = 'btn pull-left';
                 console.log("API run successfully");
 
             }
             catch (e) {
-                profileResult.innerHTML = 'No more profiles!';
+                nameTemplate.innerHTML = 'No more profiles!';
+                descriptionTemplate.innerHTML = '';
+                imageTemplate.src = '';
+                likeBtn.className = 'btn btn-success hidden';
+                tinderButton.className = 'btn hidden';
+                console.log("No more profiles (or failed to parse profile object)");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+
+likeBtn.addEventListener('click', function (event) {
+    let url = '/Api/Finder/Like?id=' + secretId.textContent + '&likeId=' + secretProfileId.textContent
+    console.log(url)
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            try {
+                var profile = JSON.parse(data[counter]);
+                counter++;
+
+                nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
+                descriptionTemplate.innerHTML = profile.Description;
+                imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+
+                secretProfileId.innerHTML = profile.UserId;
+                likeBtn.className = 'btn btn-success pull-right';
+                tinderButton.textContent = 'Keep looking';
+                tinderButton.className = 'btn pull-left';
+                console.log("API run successfully");
+
+            }
+            catch (e) {
+                nameTemplate.innerHTML = 'No more profiles!';
+                descriptionTemplate.innerHTML = '';
+                imageTemplate.src = '';
+                likeBtn.className = 'btn btn-success hidden';
+                tinderButton.className = 'btn hidden';
                 console.log("No more profiles (or failed to parse profile object)");
             }
         })
@@ -45,3 +101,5 @@ btn.addEventListener('click', function (event) {
             console.log(error);
         });
 });
+
+//});
