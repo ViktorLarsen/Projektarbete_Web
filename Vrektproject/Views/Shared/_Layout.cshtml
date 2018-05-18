@@ -30,7 +30,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><i class="fab fa-2x"></i>🔻 Vrektproject</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand navbar-btn"><i class="fab fa-2x"></i>🔻 Vrektproject</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -45,8 +45,8 @@
 
                     @if (User.IsInRole("Member") || User.IsInRole("Recruiter"))
                     {
-                       <li><a asp-area="" asp-controller="Likes" asp-action="Index"><i class="far fa-address-book fa-2x"></i> Contacts</a></li>
-                        <li><a asp-area="" asp-controller="Api" asp-action="Index" class="navbar-btn navbar-link"><i class="fas fa-2x"></i>Start Matching</a></li>
+                       <li><a asp-area="" asp-controller="Likes" asp-action="Index" class="navbar-btn"><i class="far fa-2x"></i>Matches</a></li>
+                        <li><a asp-area="" asp-controller="Api" asp-action="Index" class="navbar-btn"><i class="fas fa-2x"></i>Start Matching</a></li>
                     }
 
                 </ul>

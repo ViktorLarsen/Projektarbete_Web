@@ -59,16 +59,26 @@ namespace Vrektproject.Controllers
                 return NotFound();
             }
 
-            var like = await _context.Likes
+            var like = await _context.Likes.Include(l => l.Member.Profile).Include(l => l.Recruiter.Profile)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (like == null)
             {
                 return NotFound();
             }
 
-            return View(like);
-        }
+            ApplicationUser user;
+            if (User.IsInRole("Member"))
+            {
+                user = like.Recruiter;
+            }
+            else
+            {
+                user = like.Member;
+            }
 
+            return View(user);
+        }
 
         // GET: Likes/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -92,7 +102,7 @@ namespace Vrektproject.Controllers
                 like = await _context.Likes.Include(s => s.Member.Profile)
                    .SingleOrDefaultAsync(m => m.Id == id);
             }
-            
+
 
             if (like == null)
             {
