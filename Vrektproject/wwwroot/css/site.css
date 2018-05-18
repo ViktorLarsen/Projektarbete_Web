@@ -33,13 +33,12 @@ li {
 }
 
 address > a:link {
-    border-radius: 0px;
     background-color: #FFF;
-    color: #0645AD !important;
+    color: #0645AD;
     border-style: none;
 }
 
-a.navbar-brand {
+a > .navbar-brand {
     height: 50px;
     margin-top: 15px;
 }

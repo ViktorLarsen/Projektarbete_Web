@@ -24,7 +24,10 @@ namespace Vrektproject.Models.ManageViewModels
 
         public string Description { get; set; }
 
-        public byte[] AvatarImage { get; set; }
+        public string ImgSrc { get; set; }
+
+        //Used if you do frontend picture display
+        //public byte[] AvatarImage { get; set; }
 
         [Phone]
         [Display(Name = "Phone number")]
