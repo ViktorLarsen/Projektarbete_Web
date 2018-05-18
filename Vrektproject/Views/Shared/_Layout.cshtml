@@ -45,6 +45,7 @@
 
                     @if (User.IsInRole("Member") || User.IsInRole("Recruiter"))
                     {
+                       <li><a asp-area="" asp-controller="Likes" asp-action="Index"><i class="far fa-address-book fa-2x"></i> Contacts</a></li>
                         <li><a asp-area="" asp-controller="Api" asp-action="Index" class="navbar-btn navbar-link"><i class="fas fa-2x"></i>Start Matching</a></li>
                     }
 

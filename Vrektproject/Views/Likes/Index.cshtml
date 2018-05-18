@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Vrektproject.Models.Like>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Matched Contacts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+             <!--   <th>
+                    @Html.DisplayNameFor(model => model.MemberLike)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RecruiterLike)
+                </th> -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.Profile.FirstName)
+                @Html.DisplayFor(modelItem => item.Member.Profile.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recruiter.Profile.FirstName)
+                @Html.DisplayFor(modelItem => item.Recruiter.Profile.LastName)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
