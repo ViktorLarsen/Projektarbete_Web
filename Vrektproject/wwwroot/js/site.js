@@ -42,7 +42,7 @@ let counter = 0;
                     }
                     catch (e) {
                         nameTemplate.innerHTML = 'No more profiles!';
-                        descriptionTemplate.innerHTML = '';
+                        descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
                         imageTemplate.src = '';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
@@ -86,7 +86,7 @@ likeBtn.addEventListener('click', function (event) {
             catch (e) {
                 var arrayLength = data.length
                 nameTemplate.innerHTML = 'No more profiles!';
-                descriptionTemplate.innerHTML = '';
+                descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
                 imageTemplate.src = '';
                 likeBtn.className = 'btn btn-success hidden';
                 tinderButton.className = 'btn hidden';

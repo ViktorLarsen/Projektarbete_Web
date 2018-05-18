@@ -23,9 +23,9 @@
     resize: none;
 }
 
-.navbar {
+/*.navbar {
     background-color: #0077B5;
-}
+}*/
 
 li {
     margin: 5px;
@@ -44,7 +44,7 @@ a > .navbar-brand {
 }
 
 .ProfilePic{
-    height: 192px;
+    /*height: 192px;*/
     width: 192px;
     border: 1px solid black;
 }

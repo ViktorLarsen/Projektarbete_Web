@@ -8,9 +8,11 @@
 <div hidden id="secretId">@Html.DisplayFor(model => Model.Id)</div>
 <div hidden id="secretProfileId">hello</div>
 <div class="container">
-    <img id="imageTemplate" class="img-circle img-responsive center-block" style="max-width: 500px" src="" />
-    <div id="nameTemplate" class="lead text-center"></div>
-    <div id="descriptionTemplate" class="text-center center-block" style="max-width: 500px"></div>
-    <button id="tinderButton" class="btn center-block">Start Matching</button>
-    <button id="likeBtn" class="btn btn-success hidden">Like</button>
+    <div class="col-md-6 col-md-offset-3">
+        <img id="imageTemplate" class="img-circle img-responsive col-md-8 col-md-offset-2 row" src="" />
+        <div id="nameTemplate" class="lead text-center row col-md-12">Finder</div>
+        <div id="descriptionTemplate" class="text-center col-md-8 col-md-offset-2">Get new contacts and expand your network!</div>
+        <button id="tinderButton" class="btn btn-default center-block">Start Matching</button>
+        <button id="likeBtn" class="btn btn-success hidden">Like</button>
+    </div>
 </div>
