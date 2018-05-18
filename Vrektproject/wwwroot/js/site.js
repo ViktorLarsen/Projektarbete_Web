@@ -34,13 +34,13 @@ tinderButton.addEventListener('click', function (event) {
                 secretProfileId.innerHTML = profile.UserId;
                 likeBtn.className = 'btn btn-success pull-right';
                 tinderButton.textContent = 'Keep looking';
-                tinderButton.className = 'btn pull-left';
+                tinderButton.className = 'btn btn-default pull-left';
                 console.log("API run successfully");
 
             }
             catch (e) {
                 nameTemplate.innerHTML = 'No more profiles!';
-                descriptionTemplate.innerHTML = '';
+                descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
                 imageTemplate.src = '';
                 likeBtn.className = 'btn btn-success hidden';
                 tinderButton.className = 'btn hidden';
@@ -77,7 +77,7 @@ likeBtn.addEventListener('click', function (event) {
             }
             catch (e) {
                 nameTemplate.innerHTML = 'No more profiles!';
-                descriptionTemplate.innerHTML = '';
+                descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
                 imageTemplate.src = '';
                 likeBtn.className = 'btn btn-success hidden';
                 tinderButton.className = 'btn hidden';

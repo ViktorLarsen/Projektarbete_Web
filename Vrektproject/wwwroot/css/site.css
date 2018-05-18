@@ -23,9 +23,9 @@
     resize: none;
 }
 
-.navbar {
+/*.navbar {
     background-color: #0077B5;
-}
+}*/
 
 li {
     margin: 5px;
@@ -42,4 +42,10 @@ address > a:link {
 a.navbar-brand {
     height: 50px;
     margin-top: 15px;
+}
+
+.ProfilePic{
+    /*height: 192px;*/
+    width: 192px;
+    border: 1px solid black;
 }
