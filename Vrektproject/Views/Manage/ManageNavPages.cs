@@ -21,6 +21,8 @@ namespace Vrektproject.Views.Manage
 
         public static string UploadPicture => "UploadPicture";
 
+        public static string ManageSkills => "ManageSkills";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -30,6 +32,8 @@ namespace Vrektproject.Views.Manage
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
         public static string UploadPictureNavClass(ViewContext viewContext) => PageNavClass(viewContext, UploadPicture);
+
+        public static string ManageSkillsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageSkills);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
