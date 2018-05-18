@@ -24,7 +24,7 @@ namespace Vrektproject.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ApplicationUser.Include(a => a.Profile);
+            var applicationDbContext = _context.ApplicationUser.Include(a => a.Profile).OrderBy(s => s.RoleIdentifier).ThenBy(s => s.ProfileId);
             return View(await applicationDbContext.ToListAsync());
         }
 

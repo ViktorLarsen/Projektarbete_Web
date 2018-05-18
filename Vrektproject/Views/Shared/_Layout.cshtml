@@ -35,23 +35,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
+
                     <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-2x"></i> Home</a></li>
-                  <!--  <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="far fa-smile fa-2x"></i> Fun :)</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="far fa-frown fa-2x"></i> Boring</a></li>
--->
+                    <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="far fa-smile fa-2x"></i> Fun :)</a></li>
+                    <!-- <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="far fa-frown fa-2x"></i> Boring</a></li>
+    -->
                     @if (User.IsInRole("Admin"))
-                    {
-                        <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index"><i class="fas fa-address-card fa-2x"></i> Manage users</a></li>
-                    }
+    {
+                <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index"><i class="fas fa-address-card fa-2x"></i> Manage users</a></li>
+}
                     @if (User.Identity.IsAuthenticated)
-                    {
-                        <li><a asp-area="" asp-controller="Skills" asp-action="Index"> <i class="fas fa-book fa-2x"></i> Skills</a></li>
-                    }
+    {
+                <li><a asp-area="" asp-controller="Skills" asp-action="Index"> <i class="fas fa-book fa-2x"></i> Skills</a></li>
+}
 
                     @if (User.IsInRole("Member") || User.IsInRole("Recruiter"))
-                    {
-                        <li><a asp-area="" asp-controller="Api" asp-action="Index"><i class="fas fa-play fa-2x"></i> Start Matching!</a></li>
-                    }
+    {
+                <li><a asp-area="" asp-controller="Api" asp-action="Index"><i class="fas fa-play fa-2x"></i> Start Matching!</a></li>
+}
 
 
 
