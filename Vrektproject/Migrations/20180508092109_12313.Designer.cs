@@ -11,8 +11,8 @@ using Vrektproject.Data;
 namespace Vrektproject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180503092019_123123")]
-    partial class _123123
+    [Migration("20180508092109_12313")]
+    partial class _12313
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -215,6 +215,9 @@ namespace Vrektproject.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("AvatarImage")
+                        .HasMaxLength(2147483647);
+
                     b.Property<string>("Company");
 
                     b.Property<string>("Description");
@@ -222,8 +225,6 @@ namespace Vrektproject.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<byte[]>("ProfileImage");
 
                     b.HasKey("Id");
 
