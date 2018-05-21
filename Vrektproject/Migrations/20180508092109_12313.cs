@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Vrektproject.Migrations
 {
-    public partial class yolo : Migration
+    public partial class _12313 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,11 +29,11 @@ namespace Vrektproject.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AvatarImage = table.Column<byte[]>(maxLength: 2147483647, nullable: true),
                     Company = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    PictureURL = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

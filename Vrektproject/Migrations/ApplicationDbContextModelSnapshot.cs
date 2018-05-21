@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using Vrektproject.Data;
 
@@ -212,6 +214,9 @@ namespace Vrektproject.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("AvatarImage")
+                        .HasMaxLength(2147483647);
+
                     b.Property<string>("Company");
 
                     b.Property<string>("Description");
@@ -219,8 +224,6 @@ namespace Vrektproject.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("PictureURL");
 
                     b.HasKey("Id");
 

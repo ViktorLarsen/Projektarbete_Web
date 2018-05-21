@@ -14,7 +14,6 @@ using Vrektproject.Models;
 using Vrektproject.Models.AccountViewModels;
 using Vrektproject.Services;
 using Vrektproject.Data;
-using Google.Apis.Oauth2.v2.Data;
 
 
 namespace Vrektproject.Controllers
@@ -226,11 +225,12 @@ namespace Vrektproject.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Authorized = false};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Authorized = false };
 
-                var dbresult = _context.Users.Any();
-                if (!dbresult)
+                var Admin = _context.Users.Where(s => s.RoleIdentifier == 0).SingleOrDefault();
+                if (Admin == null)
                 {
+                    //give user admin role if there is no admin in DB
                     user.RoleIdentifier = 0;
                     _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "0" });
                 }
@@ -246,7 +246,7 @@ namespace Vrektproject.Controllers
                 }
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-                
+
                 if (result.Succeeded)
                 {
                     var profile = new Profile();
@@ -323,7 +323,7 @@ namespace Vrektproject.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email});
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
             }
         }
 
@@ -341,8 +341,16 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                user.RoleIdentifier = 1;
-                _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
+                if (model.IsRecruiter)
+                {
+                    user.RoleIdentifier = 2;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" }); //Recruiter needs to be authorized first
+                }
+                else
+                {
+                    user.RoleIdentifier = 1;
+                    _context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = "1" });
+                }
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -352,6 +360,9 @@ namespace Vrektproject.Controllers
                         var profile = new Profile();
                         _context.Add(profile);
                         user.ProfileId = profile.Id;
+                        profile.FirstName = model.FirstName;
+                        profile.LastName = model.LastName;
+                        await _context.SaveChangesAsync();
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);

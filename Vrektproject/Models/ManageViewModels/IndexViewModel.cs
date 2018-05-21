@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace Vrektproject.Models.ManageViewModels
 {
@@ -21,6 +23,11 @@ namespace Vrektproject.Models.ManageViewModels
         public string LastName { get; set; }
 
         public string Description { get; set; }
+
+        public string ImgSrc { get; set; }
+
+        //Used if you do frontend picture display
+        //public byte[] AvatarImage { get; set; }
 
         [Phone]
         [Display(Name = "Phone number")]

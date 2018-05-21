@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Vrektproject.Models;
 using Microsoft.Extensions.DependencyInjection;
-using Google.Apis.Oauth2.v2.Data;
 
 
 namespace Vrektproject

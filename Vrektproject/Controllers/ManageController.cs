@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Vrektproject.Data;
 using Vrektproject.Models;
 using Vrektproject.Models.ManageViewModels;
 using Vrektproject.Services;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace Vrektproject.Controllers
 {
@@ -60,11 +62,21 @@ namespace Vrektproject.Controllers
             }
             var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
 
+
             var description = profile.Description;
             if (description == null)
             {
                 description = "";
             }
+
+            string base64 = "";
+            string imgSrc = "";
+            if (profile.AvatarImage != null)
+            {
+                base64 = Convert.ToBase64String(profile.AvatarImage);
+                imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            }
+
             var model = new IndexViewModel
             {
                 Username = user.UserName,
@@ -74,8 +86,10 @@ namespace Vrektproject.Controllers
                 StatusMessage = StatusMessage,
                 FirstName = profile.FirstName,
                 LastName = profile.LastName,
-                Description = profile.Description
-                
+                Description = profile.Description,
+                //AvatarImage = profile.AvatarImage,
+                ImgSrc = imgSrc
+
             };
 
             return View(model);
@@ -124,6 +138,7 @@ namespace Vrektproject.Controllers
             {
                 profile.Description = model.Description;
             }
+
             await _context.SaveChangesAsync();
 
             var phoneNumber = user.PhoneNumber;
@@ -135,7 +150,7 @@ namespace Vrektproject.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
-           
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }
@@ -573,6 +588,52 @@ namespace Vrektproject.Controllers
 
             model.SharedKey = FormatKey(unformattedKey);
             model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UploadPicture()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new UploadPictureViewModel
+            {
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadPicture(UploadPictureViewModel model, List<IFormFile> files)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.GetUserAsync(User);
+            var profile = _context.Profiles.Where(s => s.Id == user.ProfileId).SingleOrDefault();
+            foreach (var formFile in files)
+            {
+                model.AvatarImage.Add(formFile);
+                if (formFile.Length > 0)
+                {
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var file = model.AvatarImage[0];
+                        await file.CopyToAsync(memoryStream);
+                        profile.AvatarImage = memoryStream.ToArray();
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion
