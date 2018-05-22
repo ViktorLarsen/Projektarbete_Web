@@ -1,22 +1,59 @@
 ﻿//import { triggerAsyncId } from "async_hooks";
 
 // Write your JavaScript code.
-window.addEventListener('load', function (event){
+window.addEventListener('load', function (event) {
 
-//let btn = document.getElementById('mysteryButton');
-//let div = document.getElementById('mysteryDiv');
+    //let btn = document.getElementById('mysteryButton');
+    //let div = document.getElementById('mysteryDiv');
     if (document.getElementById('likeBtn') !== null) {
         let likeBtn = document.getElementById('likeBtn');
     }
     if (document.getElementById('tinderButton') !== null) {
         let tinderButton = document.getElementById('tinderButton');
     }
-let profileTemplate = document.getElementById('profileTemplate');
-let descriptionTemplate = document.getElementById('descriptionTemplate');
-let imageTemplate = document.getElementById("imageTemplate");
-let secretId = document.getElementById('secretId');
-let secretProfileId = document.getElementById('secretProfileId');
-let counter = 0;
+    if (document.getElementById('skillsButton') !== null) {
+        let skillsButton = document.getElementById('skillsButton');
+    }
+    let profileTemplate = document.getElementById('profileTemplate');
+    let descriptionTemplate = document.getElementById('descriptionTemplate');
+    let imageTemplate = document.getElementById("imageTemplate");
+    let secretId = document.getElementById('secretId');
+    let secretProfileId = document.getElementById('secretProfileId');
+    let counter = 0;
+    let url = 'https://api.openweathermap.org/data/2.5/weather?id=';
+    let apiKey = '9a95f113b67526c124822e4a52856d2c';
+    let cityId = '5695743';
+    let iconTemplate = document.getElementById('iconTemplate');
+    let skillsTemplate = document.getElementById('skillsTemplate');
+
+    if (document.getElementById('weatherTemplate') !== null) {
+        let weatherUrl = url + cityId + '&APPID=' + apiKey;
+        console.log(weatherUrl);
+        fetch(weatherUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (weatherJson) {
+                console.log(weatherJson);
+                var temp = Math.round(parseInt(weatherJson.main.temp) - 273.15);
+                document.getElementById('weatherTemplate').innerHTML =
+                    'The weather in '
+                    + weatherJson.name
+                    + ' is '
+                    + weatherJson.weather[0].main
+                    + ' with '
+                    + temp
+                    + 'C';
+                var iconCode = weatherJson.weather[0].icon;
+                console.log(iconCode);
+                var iconSource = 'https://openweathermap.org/img/w/50n.png';
+                console.log(iconSource);
+                iconTemplate.src = iconSource;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     if (document.getElementById('tinderButton') !== null) {
         tinderButton.addEventListener('click', function (event) {
@@ -31,21 +68,29 @@ let counter = 0;
 
                         nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
                         descriptionTemplate.innerHTML = profile.Description;
-                        imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        if (profile.AvatarImage !== null) {
+                            imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        }
+                        else {
+                            imageTemplate.src = defaultPic;
+                        }
 
                         secretProfileId.innerHTML = profile.UserId;
                         likeBtn.className = 'btn btn-success pull-right';
                         tinderButton.textContent = 'Keep looking';
                         tinderButton.className = 'btn pull-left';
+                        skillsButton.className = 'btn btn-default';
                         console.log("API run successfully");
 
                     }
                     catch (e) {
                         nameTemplate.innerHTML = 'No more profiles!';
                         descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
-                        imageTemplate.src = '';
+                        imageTemplate.className = 'hidden';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
+                        skillsButton.className = 'btn hidden';
+                        skillsTemplate = '';
                         console.log("No more profiles (or failed to parse profile object)");
                         counter = 0;
                     }
@@ -57,51 +102,84 @@ let counter = 0;
     }
 
     if (document.getElementById('likeBtn') !== null) {
-likeBtn.addEventListener('click', function (event) {
-    let url = '/Api/Finder/Like?id=' + secretId.textContent + '&likeId=' + secretProfileId.textContent;
-    console.log(url);
-    fetch(url)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            try {
-                if (counter > 0) {
-                    counter--;
-                }
-                var profile = JSON.parse(data[counter]);
-                
-                nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
-                descriptionTemplate.innerHTML = profile.Description;
-                imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+        likeBtn.addEventListener('click', function (event) {
+            let url = '/Api/Finder/Like?id=' + secretId.textContent + '&likeId=' + secretProfileId.textContent;
+            console.log(url);
+            fetch(url)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    try {
+                        if (counter > 0) {
+                            counter--;
+                        }
+                        var profile = JSON.parse(data[counter]);
 
-                secretProfileId.innerHTML = profile.UserId;
-                likeBtn.className = 'btn btn-success pull-right';
-                tinderButton.textContent = 'Keep looking';
-                tinderButton.className = 'btn pull-left';
-                console.log("API run successfully");
-                
+                        nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
+                        descriptionTemplate.innerHTML = profile.Description;
+                        if (profile.AvatarImage !== null) {
+                            imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        }
+                        else {
+                            imageTemplate.src = defaultPic;
+                        }
 
-            }
-            catch (e) {
-                var arrayLength = data.length
-                nameTemplate.innerHTML = 'No more profiles!';
-                descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
-                imageTemplate.src = '';
-                likeBtn.className = 'btn btn-success hidden';
-                tinderButton.className = 'btn hidden';
-                console.log("No more profiles (or failed to parse profile object)");
-                counter = 0;
-                console.log(arrayLength);
-                console.log(counter);
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        });
+                        secretProfileId.innerHTML = profile.UserId;
+                        likeBtn.className = 'btn btn-success pull-right';
+                        tinderButton.textContent = 'Keep looking';
+                        tinderButton.className = 'btn pull-left';
+                        console.log("API run successfully");
+
+
+                    }
+                    catch (e) {
+                        var arrayLength = data.length
+                        nameTemplate.innerHTML = 'No more profiles!';
+                        descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
+                        imageTemplate.className = 'hidden';
+                        likeBtn.className = 'btn btn-success hidden';
+                        tinderButton.className = 'btn hidden';
+                        skillsButton.className = 'btn hidden';
+                        skillsTemplate = '';
+                        console.log("No more profiles (or failed to parse profile object)");
+                        counter = 0;
+                        console.log(arrayLength);
+                        console.log(counter);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         });
     }
-    });
+
+    if (document.getElementById('skillsButton') !== null) {
+        skillsButton.addEventListener('click', function (event) {
+            fetch('/Api/Finder/Getskills?id=' + secretProfileId.textContent)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    try {
+                        for (i = 0; i < data.length; i++) {
+                            var skill = JSON.parse(data[i])
+                            skillsTemplate.innerHTML += '<br />' + skill.Name;
+                        }
+                        console.log("API run successfully");
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
+    }
+});
+
+
 
 
 //btn.addEventListener('click', function (event) {
