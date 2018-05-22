@@ -17,19 +17,16 @@ namespace Vrektproject.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        // Från här
         private readonly UserManager<ApplicationUser> _userManager;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
-        // Till här
+        
 
 
         public LikesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            // usermanager added
             _userManager = userManager;
-            //
         }
 
         // GET: Likes
@@ -37,18 +34,46 @@ namespace Vrektproject.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var applicationDbContext = _context.Likes.Where(s => s.Member.Id == user.Id && s.MemberLike == true && s.RecruiterLike == true || s.Recruiter.Id == user.Id && s.MemberLike == true && s.RecruiterLike == true);
+            var Likes = _context.Likes.Where(s => s.Member.Id == user.Id && s.MemberLike == true && s.RecruiterLike == true || s.Recruiter.Id == user.Id && s.MemberLike == true && s.RecruiterLike == true);
             if (user.RoleIdentifier == 1)
             {
 
-                applicationDbContext = applicationDbContext.Include(s => s.Recruiter.Profile);
+                Likes = Likes.Include(s => s.Recruiter.Profile);
             }
             else if (user.RoleIdentifier == 2)
             {
-                applicationDbContext = applicationDbContext.Include(s => s.Member.Profile);
+                Likes = Likes.Include(s => s.Member.Profile);
             }
 
-            return View(await applicationDbContext.ToListAsync());
+            List<MatchViewModel> matchViewModelsList = new List<MatchViewModel>();
+
+            foreach (var like in Likes)
+            {
+
+                if (user.RoleIdentifier == 2)
+                {
+                    MatchViewModel matchViewModel = new MatchViewModel
+                    {
+                        Id = like.Id,
+                        FirstName = like.Member.Profile.FirstName,
+                        LastName = like.Member.Profile.LastName
+                    };
+                    matchViewModelsList.Add(matchViewModel);
+                }
+                else if (user.RoleIdentifier == 1)
+                {
+                    MatchViewModel matchViewModel = new MatchViewModel
+                    {
+                        Id = like.Id,
+                        FirstName = like.Recruiter.Profile.FirstName,
+                        LastName = like.Recruiter.Profile.LastName
+                    };
+                    matchViewModelsList.Add(matchViewModel);
+                }
+                
+            }
+
+            return View(matchViewModelsList.ToList());
         }
 
         // GET: Likes/Details/5
