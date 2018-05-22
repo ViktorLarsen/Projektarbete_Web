@@ -11,6 +11,9 @@ window.addEventListener('load', function (event) {
     if (document.getElementById('tinderButton') !== null) {
         let tinderButton = document.getElementById('tinderButton');
     }
+    if (document.getElementById('skillsButton') !== null) {
+        let skillsButton = document.getElementById('skillsButton');
+    }
     let profileTemplate = document.getElementById('profileTemplate');
     let descriptionTemplate = document.getElementById('descriptionTemplate');
     let imageTemplate = document.getElementById("imageTemplate");
@@ -21,6 +24,7 @@ window.addEventListener('load', function (event) {
     let apiKey = '9a95f113b67526c124822e4a52856d2c';
     let cityId = '5695743';
     let iconTemplate = document.getElementById('iconTemplate');
+    let skillsTemplate = document.getElementById('skillsTemplate');
 
     if (document.getElementById('weatherTemplate') !== null) {
         let weatherUrl = url + cityId + '&APPID=' + apiKey;
@@ -75,6 +79,7 @@ window.addEventListener('load', function (event) {
                         likeBtn.className = 'btn btn-success pull-right';
                         tinderButton.textContent = 'Keep looking';
                         tinderButton.className = 'btn pull-left';
+                        skillsButton.className = 'btn btn-default';
                         console.log("API run successfully");
 
                     }
@@ -84,6 +89,8 @@ window.addEventListener('load', function (event) {
                         imageTemplate.className = 'hidden';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
+                        skillsButton.className = 'btn hidden';
+                        skillsTemplate = '';
                         console.log("No more profiles (or failed to parse profile object)");
                         counter = 0;
                     }
@@ -133,6 +140,8 @@ window.addEventListener('load', function (event) {
                         imageTemplate.className = 'hidden';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
+                        skillsButton.className = 'btn hidden';
+                        skillsTemplate = '';
                         console.log("No more profiles (or failed to parse profile object)");
                         counter = 0;
                         console.log(arrayLength);
@@ -144,7 +153,33 @@ window.addEventListener('load', function (event) {
                 });
         });
     }
+
+    if (document.getElementById('skillsButton') !== null) {
+        skillsButton.addEventListener('click', function (event) {
+            fetch('/Api/Finder/Getskills?id=' + secretProfileId.textContent)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    try {
+                        for (i = 0; i < data.length; i++) {
+                            var skill = JSON.parse(data[i])
+                            skillsTemplate.innerHTML += '<br />' + skill.Name;
+                        }
+                        console.log("API run successfully");
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
+    }
 });
+
+
 
 
 //btn.addEventListener('click', function (event) {

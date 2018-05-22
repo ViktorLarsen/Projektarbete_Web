@@ -183,6 +183,29 @@ namespace Vrektproject.Controllers
         }
 
         [HttpGet]
+        [Route("GetSkills")]
+        public List<string> GetSkills(string id)
+        {
+            var user = _context.Users.Where(u => u.Id == id).Single();
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            var profile = _context.Profiles.Where(p => p.Id == user.ProfileId).Single();
+            if (profile == null)
+            {
+                throw new ApplicationException($"Unable to load profile with ID '{user.ProfileId}'.");
+            }
+            var skills = _context.Skills.Where(s => s.ProfileId == profile.Id);
+            List<string> skillsJson = new List<string>();
+            foreach (var skill in skills)
+            {
+                skillsJson.Add(JsonConvert.SerializeObject(skill));
+            }
+            return skillsJson;
+        }
+
+        [HttpGet]
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
