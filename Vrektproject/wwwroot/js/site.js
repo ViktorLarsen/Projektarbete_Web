@@ -64,7 +64,12 @@ window.addEventListener('load', function (event) {
 
                         nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
                         descriptionTemplate.innerHTML = profile.Description;
-                        imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        if (profile.AvatarImage !== null) {
+                            imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        }
+                        else {
+                            imageTemplate.src = defaultPic;
+                        }
 
                         secretProfileId.innerHTML = profile.UserId;
                         likeBtn.className = 'btn btn-success pull-right';
@@ -76,7 +81,7 @@ window.addEventListener('load', function (event) {
                     catch (e) {
                         nameTemplate.innerHTML = 'No more profiles!';
                         descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
-                        imageTemplate.hidden = true;
+                        imageTemplate.className = 'hidden';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
                         console.log("No more profiles (or failed to parse profile object)");
@@ -106,7 +111,12 @@ window.addEventListener('load', function (event) {
 
                         nameTemplate.innerHTML = profile.FirstName + ' ' + profile.LastName;
                         descriptionTemplate.innerHTML = profile.Description;
-                        imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        if (profile.AvatarImage !== null) {
+                            imageTemplate.src = "data:image/png;base64," + profile.AvatarImage;
+                        }
+                        else {
+                            imageTemplate.src = defaultPic;
+                        }
 
                         secretProfileId.innerHTML = profile.UserId;
                         likeBtn.className = 'btn btn-success pull-right';
@@ -120,7 +130,7 @@ window.addEventListener('load', function (event) {
                         var arrayLength = data.length
                         nameTemplate.innerHTML = 'No more profiles!';
                         descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
-                        imageTemplate.hidden = true;
+                        imageTemplate.className = 'hidden';
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
                         console.log("No more profiles (or failed to parse profile object)");
