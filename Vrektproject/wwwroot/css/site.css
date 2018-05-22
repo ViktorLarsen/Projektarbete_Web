@@ -26,7 +26,6 @@
 /*.navbar {
     background-color: #0077B5;
 }*/
-
 li {
     margin: 5px;
     font-size: 15px;
@@ -47,4 +46,8 @@ a > .navbar-brand {
     /*height: 192px;*/
     width: 192px;
     border: 1px solid black;
+}
+
+.CarouselImg{
+    height: 160px;
 }
