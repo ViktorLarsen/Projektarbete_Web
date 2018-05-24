@@ -35,17 +35,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
-                  <!--  <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="far fa-smile fa-2x"></i> Fun :)</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="far fa-frown fa-2x"></i> Boring</a></li>
--->
+                    <!--  <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="far fa-smile fa-2x"></i> Fun :)</a></li>
+                                        <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="far fa-frown fa-2x"></i> Boring</a></li>
+                    -->
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index"><i class="fas fa-2x"></i> Manage users</a></li>
+                        <li><a asp-area="" asp-controller="Api" asp-action="GetMatchesIndex"><i class="fas fa-2x"></i>Get Matches</a></li>
                     }
 
                     @if (User.IsInRole("Member") || User.IsInRole("Recruiter"))
                     {
-                       <li><a asp-area="" asp-controller="Likes" asp-action="Index" class="navbar-btn"><i class="far fa-2x"></i>Matches</a></li>
+                        <li><a asp-area="" asp-controller="Likes" asp-action="Index" class="navbar-btn"><i class="far fa-2x"></i>Matches</a></li>
                         <li><a asp-area="" asp-controller="Api" asp-action="Index" class="navbar-btn"><i class="fas fa-2x"></i>Start Matching</a></li>
                     }
 
@@ -57,8 +58,12 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer style="background-color:#f2f2f2; position:fixed; bottom: 0px; width:100%; left:0px; border-top: 1px solid; border-color:#ebebeb;">
-            <p>&copy; 2018 - Vrektproject</p>
+        <footer style="background-color:#f2f2f2; position:fixed; bottom: 0px; width:100%; left:0px; border-top: 1px solid; border-color:#ebebeb;">      
+            <p>
+                <div class="pull-left"> &copy; 2018 - Vrektproject |</div>
+                <div class="pull-left" id="weatherTemplate" style="padding-left:0.5em">Loading...</div>
+                <img id="iconTemplate" style="max-width:30px" src="" />
+            </p>
         </footer>
     </div>
 

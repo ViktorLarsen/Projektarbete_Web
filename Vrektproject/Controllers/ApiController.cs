@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Vrektproject.Data;
 using Vrektproject.Models;
@@ -204,6 +205,20 @@ namespace Vrektproject.Controllers
             }
             return skillsJson;
         }
+        
+        [HttpGet]
+        [Route("GetMatches")]
+        public List<string> GetMatches()
+        {
+            
+            var matches = _context.Likes.Where(s => s.MemberLike == true && s.RecruiterLike == true).Include(s => s.Member.Profile).Include(s => s.Recruiter.Profile);
+            List<string> matchesJson = new List<string>();
+            foreach (var match in matches)
+            {
+                matchesJson.Add(JsonConvert.SerializeObject(match));
+            }
+            return matchesJson;
+        }
 
         [HttpGet]
         [Route("Index")]
@@ -218,6 +233,14 @@ namespace Vrektproject.Controllers
             var model = new ApplicationUser { Id = user.Id };
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Route("GetMatchesIndex")]
+        public IActionResult GetMatchesIndex()
+        {
+
+            return View();
         }
     }
 }

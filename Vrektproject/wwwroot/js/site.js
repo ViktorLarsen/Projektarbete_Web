@@ -14,6 +14,9 @@ window.addEventListener('load', function (event) {
     if (document.getElementById('skillsButton') !== null) {
         let skillsButton = document.getElementById('skillsButton');
     }
+    if (document.getElementById('getMatchesButton') !== null) {
+        let getMatchesButton = document.getElementById('getMatchesButton');
+    }
     let profileTemplate = document.getElementById('profileTemplate');
     let descriptionTemplate = document.getElementById('descriptionTemplate');
     let imageTemplate = document.getElementById("imageTemplate");
@@ -22,9 +25,10 @@ window.addEventListener('load', function (event) {
     let counter = 0;
     let url = 'https://api.openweathermap.org/data/2.5/weather?id=';
     let apiKey = '9a95f113b67526c124822e4a52856d2c';
-    let cityId = '5695743';
+    let cityId = '2711537';
     let iconTemplate = document.getElementById('iconTemplate');
     let skillsTemplate = document.getElementById('skillsTemplate');
+    let matchesTemplate = document.getElementById('matchesTemplate');
 
     if (document.getElementById('weatherTemplate') !== null) {
         let weatherUrl = url + cityId + '&APPID=' + apiKey;
@@ -46,7 +50,7 @@ window.addEventListener('load', function (event) {
                     + 'C';
                 var iconCode = weatherJson.weather[0].icon;
                 console.log(iconCode);
-                var iconSource = 'https://openweathermap.org/img/w/50n.png';
+                var iconSource = 'https://openweathermap.org/img/w/' + iconCode + '.png';
                 console.log(iconSource);
                 iconTemplate.src = iconSource;
             })
@@ -142,7 +146,7 @@ window.addEventListener('load', function (event) {
 
                     }
                     catch (e) {
-                        var arrayLength = data.length
+                        var arrayLength = data.length;
                         nameTemplate.innerHTML = 'No more profiles!';
                         descriptionTemplate.innerHTML = 'You have seen all profiles that are relevant for you.';
                         imageTemplate.className = 'hidden';
@@ -172,9 +176,34 @@ window.addEventListener('load', function (event) {
                 .then(data => {
                     try {
                         for (i = 0; i < data.length; i++) {
-                            var skill = JSON.parse(data[i])
+                            var skill = JSON.parse(data[i]);
                             skillsTemplate.innerHTML += '<br />' + skill.Name;
                             skillsButton.className = 'hidden';
+                        }
+                        console.log("API run successfully");
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
+    }
+
+    if (document.getElementById('getMatchesButton') !== null) {
+        getMatchesButton.addEventListener('click', function (event) {
+            fetch('/Api/Finder/GetMatches')
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    matchesTemplate.innerHTML = '';
+                    try {
+                        for (i = 0; i < data.length; i++) {
+                            var match = JSON.parse(data[i]);
+                            matchesTemplate.innerHTML += '<li class="list-group-item">' + match.Member.Profile.FirstName + " " + match.Member.Profile.LastName + ' <span class="Heart">&#10084; </span>' + match.Recruiter.Profile.FirstName + " " + match.Recruiter.Profile.LastName + '</li>';
                         }
                         console.log("API run successfully");
                     }
