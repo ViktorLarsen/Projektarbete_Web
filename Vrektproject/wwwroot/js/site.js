@@ -22,7 +22,7 @@ window.addEventListener('load', function (event) {
     let counter = 0;
     let url = 'https://api.openweathermap.org/data/2.5/weather?id=';
     let apiKey = '9a95f113b67526c124822e4a52856d2c';
-    let cityId = '5695743';
+    let cityId = '2711537';
     let iconTemplate = document.getElementById('iconTemplate');
     let skillsTemplate = document.getElementById('skillsTemplate');
 
@@ -46,7 +46,7 @@ window.addEventListener('load', function (event) {
                     + 'C';
                 var iconCode = weatherJson.weather[0].icon;
                 console.log(iconCode);
-                var iconSource = 'https://openweathermap.org/img/w/50n.png';
+                var iconSource = 'https://openweathermap.org/img/w/' + iconCode + '.png';
                 console.log(iconSource);
                 iconTemplate.src = iconSource;
             })
