@@ -79,8 +79,12 @@ window.addEventListener('load', function (event) {
                         likeBtn.className = 'btn btn-success pull-right';
                         tinderButton.textContent = 'Keep looking';
                         tinderButton.className = 'btn pull-left';
-                        skillsButton.className = 'btn btn-default';
+                        skillsButton.className = 'btn btn-default col-md-12 col-md-offset-0 row';
                         console.log("API run successfully");
+
+                        skillsTemplate.innerHTML = '';
+                       
+
 
                     }
                     catch (e) {
@@ -90,9 +94,10 @@ window.addEventListener('load', function (event) {
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
                         skillsButton.className = 'btn hidden';
-                        skillsTemplate = '';
+                        
                         console.log("No more profiles (or failed to parse profile object)");
                         counter = 0;
+                        skillsTemplate.innerHTML = '';
                     }
                 })
                 .catch(error => {
@@ -131,6 +136,9 @@ window.addEventListener('load', function (event) {
                         tinderButton.className = 'btn pull-left';
                         console.log("API run successfully");
 
+                        //
+                        skillsTemplate.innerHTML = '';
+                        skillsButton.className = 'btn btn-default col-md-12 col-md-offset-0 row';
 
                     }
                     catch (e) {
@@ -141,11 +149,12 @@ window.addEventListener('load', function (event) {
                         likeBtn.className = 'btn btn-success hidden';
                         tinderButton.className = 'btn hidden';
                         skillsButton.className = 'btn hidden';
-                        skillsTemplate = '';
+                      
                         console.log("No more profiles (or failed to parse profile object)");
                         counter = 0;
                         console.log(arrayLength);
                         console.log(counter);
+                        skillsTemplate.innerHTML = '';
                     }
                 })
                 .catch(error => {
@@ -165,6 +174,7 @@ window.addEventListener('load', function (event) {
                         for (i = 0; i < data.length; i++) {
                             var skill = JSON.parse(data[i])
                             skillsTemplate.innerHTML += '<br />' + skill.Name;
+                            skillsButton.className = 'hidden';
                         }
                         console.log("API run successfully");
                     }

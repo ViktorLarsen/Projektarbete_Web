@@ -24,14 +24,16 @@
 }
 
 .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     border: 0;
     border-radius: 0;
     margin-bottom: 0;
     font-size: 12px;
     letter-spacing: 5px;
     background-color:#f2f2f2;
+    border-bottom :solid;
+    border-color:#ebebeb;
 }
 
 .navbar-nav li a:hover {
@@ -98,9 +100,8 @@ a > .navbar-brand btn:hover  {
     }
 
 
-    <!---->
 #tinderButton {
-    background-color: #f4511e;
+    background-color: #588af0;
     border: none;
     color: white;
     
@@ -116,4 +117,9 @@ a > .navbar-brand btn:hover  {
 
 #tinderButton:hover {
     opacity: 1
+}
+
+#skillsButton {
+    margin: 0 auto;
+    text-align: center;
 }
