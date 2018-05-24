@@ -51,3 +51,7 @@ a > .navbar-brand {
 .CarouselImg{
     height: 160px;
 }
+
+.Heart{
+    color: red;
+}
