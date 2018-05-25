@@ -47,7 +47,7 @@ window.addEventListener('load', function (event) {
                     + weatherJson.weather[0].main
                     + ' with '
                     + temp
-                    + 'C';
+                    + '&#8451;';
                 var iconCode = weatherJson.weather[0].icon;
                 console.log(iconCode);
                 var iconSource = 'https://openweathermap.org/img/w/' + iconCode + '.png';
@@ -203,7 +203,7 @@ window.addEventListener('load', function (event) {
                     try {
                         for (i = 0; i < data.length; i++) {
                             var match = JSON.parse(data[i]);
-                            matchesTemplate.innerHTML += '<li class="list-group-item">' + match.Member.Profile.FirstName + " " + match.Member.Profile.LastName + ' <span class="Heart">&#10084; </span>' + match.Recruiter.Profile.FirstName + " " + match.Recruiter.Profile.LastName + '</li>';
+                            matchesTemplate.innerHTML += '<li class="list-group-item">' + match.Member.Profile.FirstName + " " + match.Member.Profile.LastName + ' <span class="Star">&#9733; </span>' + match.Recruiter.Profile.FirstName + " " + match.Recruiter.Profile.LastName + '</li>';
                         }
                         console.log("API run successfully");
                     }
