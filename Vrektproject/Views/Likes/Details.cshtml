@@ -1,0 +1,31 @@
+﻿@model Vrektproject.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Details";
+
+    //Display profile picture from byte[] in db.Frontend version.
+
+    string base64 = "";
+    string imgSrc = "";
+    if (Model.Profile.AvatarImage != null)
+    {
+        base64 = Convert.ToBase64String(Model.Profile.AvatarImage);
+        imgSrc = String.Format("data:image/png;base64,{0}", base64);
+    }
+}
+
+<h2>Profile</h2>
+<div id="secretProfileId" class="hidden">@Html.DisplayFor(m => m.Id)</div>
+<div class="container" style="border-style:solid; border-width:1px; margin-top:20px; border-color:#979797; width:50%; height:60%; border-radius:5px; background-color:white;">
+    <div class="col-md-6 col-md-offset-3">
+        <img id="imageTemplate" class="img-circle img-responsive col-md-12" style="padding:10px;" src="@imgSrc" />
+        <div id="nameTemplate" class="lead text-center row col-md-12">@Html.DisplayFor(m => m.Profile.FirstName) @Html.DisplayFor(m => m.Profile.LastName)</div>
+        <div id="nameTemplate" class="lead text-center row col-md-12" style="font-size:13px; margin-top:-23px;">@Html.DisplayFor(m => m.UserName)</div>
+        <div id="descriptionTemplate" class="text-center col-md-12">@Html.DisplayFor(m => m.Profile.Description)</div>
+        <div id="skillsTemplate" class="text-center col-md-12"></div>
+        <button id="skillsButton" class="btn btn-default col-md-12 col-xs-12 col-sm-12 col-lg-12">Skills</button>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -24,55 +24,21 @@
 }
 
 .navbar {
-    background-color: #0077B5;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+    background-color:#f2f2f2;
+    border-bottom :solid;
+    border-color:#ebebeb;
 }
 
-a {
-    color: black;
+.navbar-nav li a:hover {
+    color: #1abc9c !important;
 }
-
-.container > a {
-    border-radius: 15px;
-    margin: 5px;
-    height: 60px;
-    background-color: white;
-    border-style: inset;
-    border-color: black;
-}
-
-a:hover {
-    background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
-    color: black;
-}
-
-.btn {
-    background-color: white; /* Blue background */
-    color: black; /* White text */
-    padding: 12px 16px; /* Some padding */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
-    border-radius: 25px;
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-}
-
-    .btn:hover {
-        background: linear-gradient(to bottom right, white, white, #8CABFF, #0088b5);
-        color: black;
-        border-color: black;
-    }
-
-a:link {
-    background-color: white; /* Blue background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 12px 16px; /* Some padding */
-    font-size: 16px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
-    border-radius: 25px;
-}
-
 li {
     margin: 5px;
     font-size: 15px;
@@ -87,10 +53,77 @@ address > a:link {
 a > .navbar-brand {
     height: 50px;
     margin-top: 15px;
+    
 }
 
-.ProfilePic{
-    height: 192px;
+
+a > .navbar-brand btn:hover  {
+    color:#1abc9c;
+    
+}
+.ProfilePic {
+    /*height: 192px;*/
     width: 192px;
     border: 1px solid black;
+}
+
+.CarouselImg{
+    height: 160px;
+}
+
+.Star{
+    color: gray;
+}
+
+
+<!---->
+
+#likeBtn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+    #likeBtn span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+    }
+
+#likeBtn:hover span {
+    padding-right: 25px;
+}
+
+    #likeBtn:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+
+#tinderButton {
+    background-color: #588af0;
+    border: none;
+    color: white;
+    
+    text-align: center;
+    font-size: 14px;
+    margin: 0px 0px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#tinderButton:hover {
+    opacity: 1
+}
+
+#skillsButton {
+    margin: 0 auto;
+    text-align: center;
 }

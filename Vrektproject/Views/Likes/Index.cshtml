@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Vrektproject.Models.MatchViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Matched Contacts: @Model.Count()</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="Star">&#9733; </span>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.DisplayFor(modelItem => item.LastName) <span class="Star">&#9733; </span>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
